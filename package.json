@@ -1,7 +1,8 @@
 {
   "name": "star-token",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "author": "rinaldo rossi",
   "devDependencies": {
     "autoprefixer": "6.3.7",
     "babel-core": "6.10.4",
