@@ -3,10 +3,6 @@ import AccountList from 'components/AccountList/AccountList'
 import SendCoin from 'components/SendCoin/SendCoin'
 
 import MetaCoin from 'contracts/MetaCoin.sol';
-import Web3 from 'web3';
-
-const provider = new Web3.providers.HttpProvider('http://localhost:8545')
-MetaCoin.setProvider(provider);
 
 class AccountListContainer extends Component {
   constructor(props) {
@@ -17,12 +13,23 @@ class AccountListContainer extends Component {
       coinbase: ''
     }
 
+console.log(this.props.web3);
+    MetaCoin.setProvider(this.props.web3.currentProvider);
+
     this._getAccountBalance = this._getAccountBalance.bind(this)
     this._getAccountBalances = this._getAccountBalances.bind(this)
   }
 
   _getAccountBalance (account) {
-    var meta = MetaCoin.deployed()
+    var meta = MetaCoin.deployed();
+    console.log('MetaCoin Deployed');
+    console.log(meta);
+
+    meta.getOriginBalance.call().then(function (value) {
+      console.log('pippo');
+      console.log(value);
+    });
+
     return new Promise((resolve, reject) => {
       meta.getBalance.call(account, {from: account}).then(function (value) {
         resolve({ account: value.valueOf() })
@@ -46,6 +53,7 @@ class AccountListContainer extends Component {
         return
       }
 
+console.log('coinbase');
       this.setState({coinbase: accs[0]})
 
       var accountsAndBalances = accs.map((account) => {
