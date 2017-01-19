@@ -13,7 +13,6 @@ class AccountListContainer extends Component {
       coinbase: ''
     }
 
-console.log(this.props.web3);
     MetaCoin.setProvider(this.props.web3.currentProvider);
 
     this._getAccountBalance = this._getAccountBalance.bind(this)
@@ -22,13 +21,6 @@ console.log(this.props.web3);
 
   _getAccountBalance (account) {
     var meta = MetaCoin.deployed();
-    console.log('MetaCoin Deployed');
-    console.log(meta);
-
-    meta.getOriginBalance.call().then(function (value) {
-      console.log('pippo');
-      console.log(value);
-    });
 
     return new Promise((resolve, reject) => {
       meta.getBalance.call(account, {from: account}).then(function (value) {
@@ -53,7 +45,6 @@ console.log(this.props.web3);
         return
       }
 
-console.log('coinbase');
       this.setState({coinbase: accs[0]})
 
       var accountsAndBalances = accs.map((account) => {
