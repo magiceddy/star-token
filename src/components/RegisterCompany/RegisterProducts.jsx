@@ -1,2 +1,6 @@
 import React, { Component } from 'react';
-import 
+
+class RegisterProducts extends Component {
+
+    
+}
