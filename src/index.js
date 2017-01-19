@@ -1,13 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import Web3 from 'web3'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Web3 from 'web3';
+import { Provider } from "react-redux";
+import { getStore } from './store';
+import { getRoutes } from './routes';
+import { Router, browserHistory } from "react-router";
 
 import './index.css'
 
-import truffleConfig from '../truffle.js'
+import truffleConfig from '../truffle.js';
 
 var web3Location = `http://${truffleConfig.rpc.host}:${truffleConfig.rpc.port}`
+
 
 window.addEventListener('load', function() {                    
   var web3Provided;
@@ -19,9 +23,15 @@ window.addEventListener('load', function() {
   } else {                                                      
     web3Provided = new Web3(new Web3.providers.HttpProvider(web3Location))
   }   
+
+  const store = getStore();
   
   ReactDOM.render(
-    <App web3={web3Provided} />,
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        { getRoutes(web3Provided) }
+      </Router>
+    </Provider>,
     document.getElementById('root')
   )                                                                                                                    
 });
